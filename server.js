@@ -6,15 +6,14 @@ const postsRouter = require("./routers/posts-router.js");
 const usersRouter = require("./routers/users-router.js");
 
 const server = express();
-
+// check name on request body, turn it to uppercase then send it to the next function.
 function upperCase(req, res, next) {
-  const method = req.method;
-  const { name } = req.body.name;
-  if (method === "POST") {
-    res.status(200).send(name.toUpperCase());
-    next();
+  const name = req.body.name;
+  if (req.method === "POST" || req.method === "PUT") {
+    req.body.name = name.toUpperCase();
+    next(); // keep on running through the usersRouter. If you don't do this, then it won't hit usersRouter middleware.
   } else {
-    res.status(401).send("You shall not pass");
+    next(); // also sends it to the router.
   }
 }
 
@@ -31,7 +30,7 @@ server.get("/", (req, res, next) => {
 console.log(postsRouter);
 
 server.use("/api/posts", postsRouter);
-server.use("/api/users", usersRouter, upperCase);
+server.use("/api/users", upperCase, usersRouter);
 
 // export default server
 module.exports = server; // <<<<<<<<<<<<<<<<<<<<<<<<<<  export the server
