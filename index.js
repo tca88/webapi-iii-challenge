@@ -3,6 +3,8 @@ const envReader = require("dotenv");
 envReader.config();
 const server = require("./server.js");
 
-server.listen(9999, () => {
-  console.log("\n* Server Running on http://localhost:9999 *\n");
+const port = process.env.PORT || 5002;
+
+server.listen(port, () => {
+  console.log("\n*** Server Running on http://localhost:5002 ***\n");
 });
