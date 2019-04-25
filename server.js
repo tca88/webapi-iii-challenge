@@ -22,10 +22,7 @@ server.use(helmet());
 server.use(morgan("dev"));
 
 server.get("/", (req, res, next) => {
-  res.send(`
-    <h2>Lambda Posts and Users API</h>
-    <p>Welcome to the Lambda Posts and Users API 😀</p>
-  `);
+  res.send(process.env.TITLE);
 });
 console.log(postsRouter);
 
